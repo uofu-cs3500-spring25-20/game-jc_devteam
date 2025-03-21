@@ -65,8 +65,7 @@ public sealed class NetworkConnection : IDisposable
     {
         get
         {
-            // TODO: implement this
-            throw new NotImplementedException();
+            return _tcpClient.Connected;
         }
     }
 
