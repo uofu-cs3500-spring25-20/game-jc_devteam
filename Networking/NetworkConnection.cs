@@ -130,8 +130,16 @@ public sealed class NetworkConnection : IDisposable
     /// <returns> The contents of the message. </returns>
     public string ReadLine( )
     {
-        // TODO: implement this
-        throw new NotImplementedException();
+        if (!IsConnected)
+            throw new InvalidOperationException();
+
+        string? message = "";
+        if (_reader != null)
+            message = _reader.ReadLine();
+
+        if (message == null)
+            return string.Empty;
+        return message;
 
     }
 
@@ -141,8 +149,7 @@ public sealed class NetworkConnection : IDisposable
     /// </summary>
     public void Disconnect( )
     {
-        //TODO: implement this
-        throw new NotImplementedException();
+        _tcpClient.Close(); 
     }
 
     /// <summary>
