@@ -28,6 +28,11 @@ public sealed class NetworkConnection : IDisposable
     private StreamWriter? _writer = null;
 
     /// <summary>
+    ///     Name of this client
+    /// </summary>
+    private string name;
+
+    /// <summary>
     ///   Initializes a new instance of the <see cref="NetworkConnection"/> class.
     ///   <para>
     ///     Create a network connection object.
@@ -39,6 +44,7 @@ public sealed class NetworkConnection : IDisposable
     public NetworkConnection( TcpClient tcpClient )
     {
         _tcpClient = tcpClient;
+        name = "";
         if ( IsConnected )
         {
             // Only establish the reader/writer if the provided TcpClient is already connected.
@@ -92,8 +98,26 @@ public sealed class NetworkConnection : IDisposable
     /// <param name="message"> The string of characters to send. </param>
     public void Send( string message )
     {
-        // TODO: Implement this
-        throw new NotImplementedException();
+        if (!IsConnected)
+            throw new InvalidOperationException();
+
+        if (name.Equals(string.Empty))
+        {
+            name = message;
+        }
+        else
+        {
+            try
+            {
+                if (_writer != null)
+                    _writer.WriteLine(name + ": " + message + "\n");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("closed");
+                return;
+            }
+        }
     }
 
 
