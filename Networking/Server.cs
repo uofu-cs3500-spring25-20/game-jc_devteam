@@ -28,6 +28,7 @@ public static class Server
     public static void StartServer( Action<NetworkConnection> handleConnect, int port )
     {
         TcpListener listener = new(IPAddress.Any, port);
+        listener.Start();
 
         while (true)
         {
